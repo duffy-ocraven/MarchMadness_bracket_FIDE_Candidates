@@ -9,7 +9,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-MGenerates a MarchMadness bracket suitable for making predictions of the FIDE Candidates tournament--Python package
+Generates a MarchMadness bracket suitable for making predictions of the FIDE Candidates tournament--Python package
 
 
 - Free software: MIT
@@ -18,7 +18,7 @@ MGenerates a MarchMadness bracket suitable for making predictions of the FIDE Ca
 
 ## Features
 
-* TODO
+* TODO Provide for indicating predictions of the 56 game outcomes interactively, propagating victories 
 
 ## Credits
 
