@@ -161,12 +161,82 @@ def draw_round_as_bracket(round_name, pairings):
     lines.append(f"{p[7]} ─┘")
 
     print("\n".join(lines))
+def draw_round_showing_draws(round_name, pairings):
+    """
+    pairings: list of 4 tuples
+        (White, Black) → no score → semifinal label = "0.5-0.5"
+        (White, Black, score) → semifinal label = score
+    """
+
+    if len(pairings) != 4:
+        raise ValueError("Need exactly 4 pairings")
+
+    players = []
+    sf_labels = []
+
+    # Normalize tuples
+    for tup in pairings:
+        if len(tup) == 2:
+            white, black = tup
+            score = "0.5-0.5"
+        else:
+            white, black, score = tup
+
+        players.append(white)
+        players.append(black)
+        sf_labels.append(score)
+
+    # Formatting
+    width = 18
+    p = [name.ljust(width) for name in players]
+    empty = " " * width
+
+    shortWidth = 9
+    pTruncated = [name.lstrip().ljust(shortWidth) for name in players]
+
+    # Truncate long names
+    for i, unTruncatedName in enumerate(pTruncated):
+        if unTruncatedName[8] != ' ':
+            pTruncated[i] = unTruncatedName[:5].ljust(shortWidth)
+        else:
+            pTruncated[i] = unTruncatedName[:8].ljust(shortWidth)
+
+    shortEmpty = " " * shortWidth
+
+    sf1, sf2, sf3, sf4 = sf_labels
+
+    print(f"\n===== {round_name} =====\n")
+
+    lines = []
+
+    # LEFT SIDE — QF1, QF2 → SF1
+    lines.append(f"{p[0]} ─┐")
+    lines.append(f"{empty} ├─ {sf1.ljust(shortWidth)}─┐")
+    lines.append(f"{p[1]} ─┘ {shortEmpty} │")
+    lines.append(f"{empty}   {shortEmpty} ├─ {sf2.ljust(shortWidth)}─┐")
+    lines.append(f"{p[2]} ─┐ {shortEmpty} │           │")
+    lines.append(f"{empty} ├─ {sf2.ljust(shortWidth)}─┘           │")
+    lines.append(f"{p[3]} ─┘                       │")
+
+    # CENTER
+    lines.append(" " * 30 + f"{shortEmpty}    ├─ Round winner")
+
+    # RIGHT SIDE — QF3, QF4 → SF2
+    lines.append(f"{p[4]} ─┐                       │")
+    lines.append(f"{empty} ├─ {sf3.ljust(shortWidth)}─┐           │")
+    lines.append(f"{p[5]} ─┘ {shortEmpty} │           │")
+    lines.append(f"{empty}   {shortEmpty} ├─ {sf4.ljust(shortWidth)}─┘")
+    lines.append(f"{p[6]} ─┐ {shortEmpty} │")
+    lines.append(f"{empty} ├─ {sf4.ljust(shortWidth)}─┘")
+    lines.append(f"{p[7]} ─┘")
+
+    print("\n".join(lines))
 rounds = [
     ["Round 1 — March 29, 2026", [
-        ("Javokhir Sindarov", "Andrey Esipenko"),
+        ("Javokhir Sindarov", "Andrey Esipenko", "1-0"),
         ("Matthias Bluebaum", "Wei Yi"),
-        ("Praggnanandhaa R", "Anish Giri"),
-        ("Fabiano Caruana", "Hikaru Nakamura")
+        ("Praggnanandhaa R", "Anish Giri", "1-0"),
+        ("Fabiano Caruana", "Hikaru Nakamura", "1-0")
     ]],
     ["Round 2 — March 30, 2026", [
         ("Andrey Esipenko", "Hikaru Nakamura"),
@@ -176,8 +246,8 @@ rounds = [
     ]],
     ["Round 3 — March 31, 2026", [
         ("Matthias Bluebaum", "Andrey Esipenko"),
-        ("Praggnanandhaa R", "Javokhir Sindarov"),
-        ("Fabiano Caruana", "Wei Yi"),
+        ("Praggnanandhaa R", "Javokhir Sindarov", "0-1"),
+        ("Fabiano Caruana", "Wei Yi", "1-0"),
         ("Hikaru Nakamura", "Anish Giri")
     ]],
     ["Round 4 — April 1, 2026", [
@@ -222,6 +292,8 @@ rounds = [
 for rdNum, roundPairings in enumerate(rounds):
   round_name, pairings = roundPairings
   if (0 < len(pairings)):
-    draw_round_as_bracket(round_name, pairings)
+    draw_round_showing_draws(round_name, pairings)
   else:
-    draw_round_as_bracket(round_name, [(black, white) for white,black in rounds[rdNum - 7][1]])
+    draw_round_as_bracket(round_name, [(black, white) for white, black, *_ in rounds[rdNum - 7][1]])
+
+# Addl prompt: if the result score is not mentioned in the tuple, output "0.5-0.5" in place of the player at Semifinal level
