@@ -1,10 +1,22 @@
+[project]
+name = "marchmadness-bracket-fide-candidates"
+version = "0.1.0"
+description = "Generates a MarchMadness bracket suitable for making predictions of the FIDE Candidates tournament"
+authors = [
+    {name = "Duffy OCraven",email = "Gduftkt@quinda.com"}
+]
+license = "MIT"
+requires-python = ">=3.7"
+dependencies = [
+]
+
 [tool]
 
 [tool.poetry]
 name = "marchmadness_bracket_fide_candidates"
-version = "0.0.0"
+version = "0.1.0"
 homepage = "https://github.com/duffy-ocraven/marchmadness-bracket-fide-candidates"
-description = "MGenerates a MarchMadness bracket suitable for making predictions of the FIDE Candidates tournament--Python package"
+description = "Generates a MarchMadness bracket suitable for making predictions of the FIDE Candidates tournament--Python package"
 authors = ["Duffy OCraven <duftkt@quinda.com>"]
 readme = "README.md"
 license =  "MIT"
@@ -49,5 +61,5 @@ addopts = "--cov=marchmadness_bracket_fide_candidates --cov-branch --cov-report 
 python_files = "tests.py test_*.py *_tests.py"
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
